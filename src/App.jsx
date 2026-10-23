@@ -254,12 +254,19 @@ export default function App() {
 
   return <main className={'system-stage ' + (intro ? 'is-starting' : 'is-ready')}>
     <div className="room-scene" aria-hidden="true">
-      <img className="room-scene__background" src={asset('room-background.png')} alt="" />
-      <img className="room-scene__shadow" src={asset('room-shadow.png')} alt="" />
+      <img className="room-scene__background" src={asset('room-background-v2.png')} alt="" />
+      <div className="room-scene__light"><img src={asset('room-light.svg')} alt="" /></div>
     </div>
     <a className="skip-link" href="#video-library" onClick={() => { if (view === 'welcome') explore(); }}>Skip to videos</a>
     <section className="workstation" aria-label="Nitro video workstation">
       <img className="workstation__texture" src={asset('case-texture.png')} alt="" aria-hidden="true" />
+      <div className="case-light case-light--near" aria-hidden="true"><img src={asset('case-light-near.svg')} alt="" /></div>
+      <div className="case-light case-light--soft" aria-hidden="true"><img src={asset('case-light-soft.svg')} alt="" /></div>
+      <div className="case-light case-light--controls" aria-hidden="true"><img src={asset('case-light-soft.svg')} alt="" /></div>
+      <span className="device-fitting device-fitting--side" aria-hidden="true" />
+      <span className="device-fitting device-fitting--top" aria-hidden="true" />
+      <span className="device-screw device-screw--left" aria-hidden="true"><img src={asset('case-screw.svg')} alt="" /></span>
+      <span className="device-screw device-screw--right" aria-hidden="true"><img src={asset('case-screw.svg')} alt="" /></span>
       <header className="device-header">
         <button className="brand-plate" type="button" onClick={goHome} aria-label="Nitro video archive home">
           <img src={asset('rocketlane.svg')} alt="Rocketlane" />
