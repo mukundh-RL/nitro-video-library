@@ -38,7 +38,7 @@ button:disabled { cursor: default; opacity: .55; }
 .room-scene__light { position: absolute; left: -14.566%; top: -53.565%; width: 93.162%; aspect-ratio: 1788.71 / 1550.95; mix-blend-mode: soft-light; }
 .room-scene__light img { display: block; max-width: none; transform-origin: top left; transform: scale(var(--scene-scale)); }
 .workstation { --device-width: min(calc(100vw - var(--rl-s-8)), calc((100svh - var(--rl-s-9)) * 1.6667), 1408px); --u: calc(var(--device-width) / 1408); position: relative; isolation: isolate; width: var(--device-width); display: flex; flex-direction: column; gap: calc(var(--u) * 19); padding: calc(var(--u) * 24) calc(var(--u) * 48) calc(var(--u) * 48); border-radius: var(--rl-radius-xl); background: linear-gradient(120.518deg,#d7d7d7 1.8%,#000 100.84%,#5a5a5a 100.85%); box-shadow: inset 0 2px 7px white,inset 1px 0 white,inset 0 -3px 1px #888,inset -2px 0 #868686,inset 0 2px 1px #a5a5a5,inset 0 5px 2px #dfdfdf; }
-.workstation::before { content: none; }
+.workstation::before { content: ''; position: absolute; z-index: -3; inset: var(--rl-s-2); border-radius: inherit; pointer-events: none; box-shadow: 0 var(--rl-s-4) var(--rl-s-5) var(--archive-shadow-near), 0 var(--rl-s-7) var(--rl-s-8) var(--archive-contact-shadow), 0 var(--rl-s-8) var(--rl-s-10) var(--archive-shadow-soft); filter: blur(var(--rl-s-2)); }
 .workstation::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inherit; pointer-events: none; z-index: 5; }
 .workstation__texture { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .91; border-radius: inherit; pointer-events: none; }
 /* Exact Figma 6536:12859 lighting exports. Keep SVG intrinsic dimensions;
@@ -46,11 +46,10 @@ button:disabled { cursor: default; opacity: .55; }
 .case-light { position: absolute; z-index: 0; inset: 0; overflow: hidden; border-radius: inherit; mix-blend-mode: overlay; pointer-events: none; }
 .case-light img { position: absolute; display: block; max-width: none; transform-origin: top left; transform: scale(calc(var(--u) / 1px)); }
 .case-light--near img { left: calc(var(--u) * -152.54); top: calc(var(--u) * -149.13); }
-.case-light--soft img, .case-light--controls img { left: calc(var(--u) * -210.30); top: calc(var(--u) * -195); }
-.case-light--controls { z-index: 4; clip-path: inset(10% 4% 5% 69%); }
+.case-light--soft img { left: calc(var(--u) * -210.30); top: calc(var(--u) * -195); }
 .device-header, .device-interior { position: relative; z-index: 1; }
 .device-fitting { position: absolute; z-index: -2; pointer-events: none; }
-.device-fitting--side { left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); border: calc(var(--u) * 8) solid var(--archive-fitting); border-left: 0; border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; }
+.device-fitting--side { left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); border: calc(var(--u) * 8) solid var(--archive-fitting); border-left: 0; border-top-color: var(--rl-paper); border-bottom-color: var(--rl-cool-gray); border-right-color: var(--rl-cool-gray-light); border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; filter: drop-shadow(1px 1px 1px var(--archive-fitting-top)) drop-shadow(2px 3px 1px var(--archive-contact-shadow)) drop-shadow(var(--rl-s-2) var(--rl-s-3) var(--rl-s-2) var(--archive-shadow-near)); }
 .device-fitting--top { left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); border-radius: var(--rl-s-1) var(--rl-s-1) 0 0; background: var(--archive-fitting-top); box-shadow: inset 0 -1px 8.7px #0009, inset 0 0 2px #0000001a; }
 .device-screw { position: absolute; z-index: 5; bottom: 2.19%; pointer-events: none; }
 .device-screw--left { left: 1.19%; }
@@ -80,6 +79,14 @@ button:disabled { cursor: default; opacity: .55; }
 .video-card__copy { min-width: 0; display: flex; flex-direction: column; justify-content: space-between; padding: calc(var(--u) * 21.45); gap: var(--rl-s-3); }
 .video-card__copy strong { font-size: max(12px,calc(var(--u) * 15.2)); line-height: 1.15; letter-spacing: -.02em; }
 .video-card__copy > span { color: var(--archive-muted); font-size: max(10px,calc(var(--u) * 12.51)); line-height: 1.35; }
+/* Archive cards reserve the full card width for uncropped 16:9 artwork.
+   Copy stays in normal flow below it, including at tablet and phone sizes. */
+.welcome-library .video-card { display: flex; flex-direction: column; height: auto; align-self: stretch; }
+.welcome-library .video-card__image { width: 100%; height: auto; aspect-ratio: 16 / 9; flex: 0 0 auto; }
+.welcome-library .video-card__image > img:first-child { object-fit: contain; }
+.welcome-library .video-card__copy { flex: 1; justify-content: flex-start; padding: var(--rl-s-4); gap: var(--rl-s-2); }
+.welcome-library .video-card__copy strong { font-size: var(--rl-body-sm); line-height: 1.3; }
+.welcome-library .video-card__copy > span { display: block; font-size: var(--rl-body-sm); line-height: 1.45; -webkit-line-clamp: unset; overflow: visible; white-space: normal; }
 .screen-vignette { position: absolute; inset: auto 0 0; height: calc(var(--u) * 127); background: linear-gradient(180deg,transparent,#000); pointer-events: none; }
 .control-deck { display: grid; grid-template-columns: minmax(0,1fr); grid-template-rows: calc(var(--u) * 230) minmax(0,1fr); gap: calc(var(--u) * 4); min-width: 0; min-height: 0; }
 .transport-bank { padding: var(--rl-s-1); background: var(--archive-metal); border-radius: var(--archive-radius); box-shadow: var(--archive-inset); min-width: 0; min-height: 0; display: flex; flex-direction: column; }
@@ -173,7 +180,6 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
   .room-scene { width: 100%; height: 100%; aspect-ratio: auto; --scene-scale: calc(100vw / 1920px); }
   .workstation { --device-width: min(calc(100vw - var(--rl-s-7)),560px); --u: 1px; padding: var(--rl-s-5) var(--rl-s-4); gap: var(--rl-s-5); border-radius: var(--rl-radius-xl); }
   .device-fitting--side { width: var(--rl-s-4); height: var(--rl-s-9); border-width: var(--rl-s-1); top: var(--rl-s-6); }
-  .case-light--controls { display: none; }
   .device-fitting--top { width: var(--rl-s-8); height: var(--rl-s-2); top: calc(-1 * var(--rl-s-2)); }
   .device-screw { bottom: var(--rl-s-1); }
   .device-screw--left { left: var(--rl-s-2); }

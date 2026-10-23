@@ -221,7 +221,10 @@ export default function App() {
   }
   function explore() {
     audio.click();
-    gridRef.current?.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'start' });
+    if (welcomeRef.current && gridRef.current) {
+      const offset = gridRef.current.getBoundingClientRect().top - welcomeRef.current.getBoundingClientRect().top;
+      welcomeRef.current.scrollTo({ top: welcomeRef.current.scrollTop + offset, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    }
     gridRef.current?.focus({ preventScroll: true });
   }
   function goHome() {
@@ -262,7 +265,6 @@ export default function App() {
       <img className="workstation__texture" src={asset('case-texture.png')} alt="" aria-hidden="true" />
       <div className="case-light case-light--near" aria-hidden="true"><img src={asset('case-light-near.svg')} alt="" /></div>
       <div className="case-light case-light--soft" aria-hidden="true"><img src={asset('case-light-soft.svg')} alt="" /></div>
-      <div className="case-light case-light--controls" aria-hidden="true"><img src={asset('case-light-soft.svg')} alt="" /></div>
       <span className="device-fitting device-fitting--side" aria-hidden="true" />
       <span className="device-fitting device-fitting--top" aria-hidden="true" />
       <span className="device-screw device-screw--left" aria-hidden="true"><img src={asset('case-screw.svg')} alt="" /></span>
