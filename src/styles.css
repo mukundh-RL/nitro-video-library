@@ -55,6 +55,9 @@ button:disabled { cursor: default; opacity: .55; }
 /* User-supplied Figma Rectangle 240647842: grey metal, three inset
    effects and a vertical flip. No outer white glow or tinted border edges. */
 .device-fitting--side { --handle-unit: var(--u); left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); border: calc(var(--u) * 8) solid var(--archive-fitting); border-left: 0; border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; transform: matrix(1,0,0,-1,0,0); box-shadow: inset calc(var(--handle-unit) * 28) calc(var(--handle-unit) * 2) calc(var(--handle-unit) * 3) var(--archive-fitting-highlight), inset calc(var(--handle-unit) * -1) calc(var(--handle-unit) * -1) calc(var(--handle-unit) * 7) var(--archive-fitting-recess), inset 0 calc(var(--handle-unit) * 2) calc(var(--handle-unit) * 3) var(--archive-fitting-depth); }
+/* Punch out the opening so inset lighting cannot tint the scene behind it.
+   Keep the existing metal border and its geometry unchanged. */
+.device-fitting--side { -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box; -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box; mask-composite: exclude; }
 .device-fitting--top { left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); border-radius: var(--rl-s-1) var(--rl-s-1) 0 0; background: var(--archive-fitting-top); box-shadow: inset 0 -1px 8.7px #0009, inset 0 0 2px #0000001a; }
 .device-screw { position: absolute; z-index: 5; bottom: 2.19%; pointer-events: none; }
 .device-screw--left { left: 1.19%; }
