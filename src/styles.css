@@ -14,7 +14,10 @@
   --archive-shadow-near: color-mix(in srgb, var(--rl-ink) 24%, transparent);
   --archive-shadow-soft: color-mix(in srgb, var(--rl-ink) 16%, transparent);
   --archive-shadow-ambient: color-mix(in srgb, var(--rl-ink) 10%, transparent);
-  --archive-fitting: #ebebeb;
+  --archive-fitting: #c3c3c3;
+  --archive-fitting-highlight: rgb(255 255 255 / .1);
+  --archive-fitting-recess: rgb(0 0 0 / .8);
+  --archive-fitting-depth: rgb(0 0 0 / .5);
   --archive-fitting-top: #f9f9f9;
   font-family: var(--rl-font-body);
   font-synthesis: none;
@@ -49,7 +52,9 @@ button:disabled { cursor: default; opacity: .55; }
 .case-light--soft img { left: calc(var(--u) * -210.30); top: calc(var(--u) * -195); }
 .device-header, .device-interior { position: relative; z-index: 1; }
 .device-fitting { position: absolute; z-index: -2; pointer-events: none; }
-.device-fitting--side { left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); border: calc(var(--u) * 8) solid var(--archive-fitting); border-left: 0; border-top-color: var(--rl-paper); border-bottom-color: var(--rl-cool-gray); border-right-color: var(--rl-cool-gray-light); border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; filter: drop-shadow(1px 1px 1px var(--archive-fitting-top)) drop-shadow(2px 3px 1px var(--archive-contact-shadow)) drop-shadow(var(--rl-s-2) var(--rl-s-3) var(--rl-s-2) var(--archive-shadow-near)); }
+/* User-supplied Figma Rectangle 240647842: grey metal, three inset
+   effects and a vertical flip. No outer white glow or tinted border edges. */
+.device-fitting--side { --handle-unit: var(--u); left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); border: calc(var(--u) * 8) solid var(--archive-fitting); border-left: 0; border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; transform: matrix(1,0,0,-1,0,0); box-shadow: inset calc(var(--handle-unit) * 28) calc(var(--handle-unit) * 2) calc(var(--handle-unit) * 3) var(--archive-fitting-highlight), inset calc(var(--handle-unit) * -1) calc(var(--handle-unit) * -1) calc(var(--handle-unit) * 7) var(--archive-fitting-recess), inset 0 calc(var(--handle-unit) * 2) calc(var(--handle-unit) * 3) var(--archive-fitting-depth); }
 .device-fitting--top { left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); border-radius: var(--rl-s-1) var(--rl-s-1) 0 0; background: var(--archive-fitting-top); box-shadow: inset 0 -1px 8.7px #0009, inset 0 0 2px #0000001a; }
 .device-screw { position: absolute; z-index: 5; bottom: 2.19%; pointer-events: none; }
 .device-screw--left { left: 1.19%; }
@@ -179,7 +184,7 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
   .system-stage { min-height: 100svh; padding: var(--rl-s-5) var(--rl-s-3); align-items: start; overflow: clip; }
   .room-scene { width: 100%; height: 100%; aspect-ratio: auto; --scene-scale: calc(100vw / 1920px); }
   .workstation { --device-width: min(calc(100vw - var(--rl-s-7)),560px); --u: 1px; padding: var(--rl-s-5) var(--rl-s-4); gap: var(--rl-s-5); border-radius: var(--rl-radius-xl); }
-  .device-fitting--side { width: var(--rl-s-4); height: var(--rl-s-9); border-width: var(--rl-s-1); top: var(--rl-s-6); }
+  .device-fitting--side { --handle-unit: calc(var(--rl-s-1) / 8); width: var(--rl-s-4); height: var(--rl-s-9); border-width: var(--rl-s-1); top: var(--rl-s-6); }
   .device-fitting--top { width: var(--rl-s-8); height: var(--rl-s-2); top: calc(-1 * var(--rl-s-2)); }
   .device-screw { bottom: var(--rl-s-1); }
   .device-screw--left { left: var(--rl-s-2); }
