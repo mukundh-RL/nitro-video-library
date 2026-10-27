@@ -259,12 +259,13 @@ export default function App() {
     <div className="room-scene" aria-hidden="true">
       <img className="room-scene__background" src={asset('room-background-v4.png')} alt="" />
       <div className="room-scene__tone" />
+      <img className="room-scene__floor" src={asset('room-background-v3.png')} alt="" />
       <div className="room-scene__ambient"><img src={asset('room-ambient-light.svg')} alt="" /></div>
     </div>
     <a className="skip-link" href="#video-library" onClick={() => { if (view === 'welcome') explore(); }}>Skip to videos</a>
     <section className="workstation" aria-label="Nitro video workstation">
       <img className="workstation__texture" src={asset('case-texture.png')} alt="" aria-hidden="true" />
-      <div className="device-ground-shadow" aria-hidden="true"><img src={asset('room-ground-shadow.png')} alt="" /></div>
+      <div className="device-ground-shadow" aria-hidden="true" />
       <span className="device-fitting device-fitting--side" aria-hidden="true" />
       <span className="device-fitting device-fitting--top" aria-hidden="true" />
       <span className="device-screw device-screw--left" aria-hidden="true"><img src={asset('case-screw.svg')} alt="" /></span>
