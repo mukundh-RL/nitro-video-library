@@ -10,10 +10,7 @@
   --archive-stage: #00318d;
   --archive-radius: 6px;
   --archive-inset: inset 1px 1px 1px #f1f0f0, inset -1px 0 2px #0004, inset 3px 0 1px white, inset 0 -2px 1px white;
-  --archive-contact-shadow: color-mix(in srgb, var(--rl-ink) 45%, transparent);
-  --archive-shadow-near: color-mix(in srgb, var(--rl-ink) 24%, transparent);
-  --archive-shadow-soft: color-mix(in srgb, var(--rl-ink) 16%, transparent);
-  --archive-shadow-ambient: color-mix(in srgb, var(--rl-ink) 10%, transparent);
+  --archive-room-shade: #00153f;
   --archive-fitting: #c3c3c3;
   --archive-fitting-highlight: rgb(255 255 255 / .1);
   --archive-fitting-recess: rgb(0 0 0 / .8);
@@ -34,20 +31,20 @@ button:disabled { cursor: default; opacity: .55; }
 .skip-link { position: fixed; z-index: 100; top: var(--rl-s-4); left: var(--rl-s-4); padding: var(--rl-s-3); background: var(--rl-paper); color: var(--rl-ink); transform: translateY(-200%); }
 .skip-link:focus { transform: none; }
 .system-stage { position: relative; isolation: isolate; display: grid; place-items: center; min-height: 100svh; padding: var(--rl-s-7) var(--rl-s-6); overflow: hidden; background: var(--rl-canvas); }
-/* Use the supplied finished room artwork directly: no extra blur or lighting
-   overlay. Device lighting and ambient shadows remain on the chassis. */
+/* Figma 6620:116504: background image, hard-light tone and ambient SVG.
+   Preserve their shared 1920 x 1080 design space independently of the UI. */
 .room-scene { position: absolute; z-index: -1; pointer-events: none; left: 50%; top: 50%; transform: translate(-50%,-50%); width: max(100%,calc(100svh * 1920 / 1080)); aspect-ratio: 1920 / 1080; --scene-scale: max(calc(100vw / 1920px),calc(100svh / 1080px)); }
-.room-scene__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.room-scene__background { position: absolute; left: -5.1364%; top: -3.941%; width: 107.5635%; height: 107.6206%; object-fit: cover; filter: blur(calc(var(--scene-scale) * 20px)); }
+.room-scene__tone { position: absolute; left: -3.1884%; top: -3.5872%; width: 106.3768%; height: 107.1744%; background: linear-gradient(12.838854deg,var(--rl-paper) 12.065%,var(--archive-room-shade) 80.132%); mix-blend-mode: hard-light; }
+.room-scene__ambient { position: absolute; left: -3.5786%; top: -6.1037%; width: 65.7544%; aspect-ratio: 1262.484 / 941.02; mix-blend-mode: soft-light; }
+.room-scene__ambient img { position: absolute; left: -24.79%; top: -43.47%; display: block; max-width: none; transform-origin: top left; transform: scale(var(--scene-scale)); }
 .workstation { --device-width: min(calc(100vw - var(--rl-s-8)), calc((100svh - var(--rl-s-9)) * 1.6667), 1408px); --u: calc(var(--device-width) / 1408); position: relative; isolation: isolate; width: var(--device-width); display: flex; flex-direction: column; gap: calc(var(--u) * 19); padding: calc(var(--u) * 24) calc(var(--u) * 48) calc(var(--u) * 48); border-radius: var(--rl-radius-xl); background: linear-gradient(120.518deg,#d7d7d7 1.8%,#000 100.84%,#5a5a5a 100.85%); box-shadow: inset 0 2px 7px white,inset 1px 0 white,inset 0 -3px 1px #888,inset -2px 0 #868686,inset 0 2px 1px #a5a5a5,inset 0 5px 2px #dfdfdf; }
-.workstation::before { content: ''; position: absolute; z-index: -3; inset: var(--rl-s-2); border-radius: inherit; pointer-events: none; box-shadow: 0 var(--rl-s-4) var(--rl-s-5) var(--archive-shadow-near), 0 var(--rl-s-7) var(--rl-s-8) var(--archive-contact-shadow), 0 var(--rl-s-8) var(--rl-s-10) var(--archive-shadow-soft); filter: blur(var(--rl-s-2)); }
 .workstation::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inherit; pointer-events: none; z-index: 5; }
 .workstation__texture { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .91; border-radius: inherit; pointer-events: none; }
-/* Exact Figma 6536:12859 lighting exports. Keep SVG intrinsic dimensions;
-   scale their wrappers with the chassis rather than stretching the artwork. */
-.case-light { position: absolute; z-index: 0; inset: 0; overflow: hidden; border-radius: inherit; mix-blend-mode: overlay; pointer-events: none; }
-.case-light img { position: absolute; display: block; max-width: none; transform-origin: top left; transform: scale(calc(var(--u) / 1px)); }
-.case-light--near img { left: calc(var(--u) * -152.54); top: calc(var(--u) * -149.13); }
-.case-light--soft img { left: calc(var(--u) * -210.30); top: calc(var(--u) * -195); }
+/* The Figma ground-shadow crop follows the chassis bottom, not the viewport.
+   Clip the part above that edge so no shadow can stain the device surface. */
+.device-ground-shadow { --shadow-unit: var(--u); position: absolute; z-index: -3; pointer-events: none; left: calc(var(--shadow-unit) * -171.51); top: calc(100% - var(--shadow-unit) * 100.797); width: calc(var(--shadow-unit) * 1715.777); height: calc(var(--shadow-unit) * 149.91); overflow: hidden; clip-path: inset(67.2383% 0 0); mix-blend-mode: multiply; }
+.device-ground-shadow img { position: absolute; display: block; max-width: none; left: -12.65%; top: -615.44%; width: 128.89%; height: 830.23%; }
 .device-header, .device-interior { position: relative; z-index: 1; }
 .device-fitting { position: absolute; z-index: -2; pointer-events: none; }
 /* User-supplied Figma Rectangle 240647842: grey metal, three inset
@@ -185,6 +182,7 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
   .system-stage { min-height: 100svh; padding: var(--rl-s-5) var(--rl-s-3); align-items: start; overflow: clip; }
   .room-scene { width: 100%; height: 100%; aspect-ratio: auto; --scene-scale: calc(100vw / 1920px); }
   .workstation { --device-width: min(calc(100vw - var(--rl-s-7)),560px); --u: 1px; padding: var(--rl-s-5) var(--rl-s-4); gap: var(--rl-s-5); border-radius: var(--rl-radius-xl); }
+  .device-ground-shadow { --shadow-unit: calc(var(--device-width) / 1408); }
   .device-fitting--side { --handle-unit: calc(var(--rl-s-1) / 8); width: var(--rl-s-4); height: var(--rl-s-9); border-width: var(--rl-s-1); top: var(--rl-s-6); }
   .device-fitting--top { width: var(--rl-s-8); height: var(--rl-s-2); top: calc(-1 * var(--rl-s-2)); }
   .device-screw { bottom: var(--rl-s-1); }
