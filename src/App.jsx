@@ -257,10 +257,7 @@ export default function App() {
 
   return <main className={'system-stage ' + (intro ? 'is-starting' : 'is-ready')}>
     <div className="room-scene" aria-hidden="true">
-      <img className="room-scene__background" src={asset('room-background-v4.png')} alt="" />
-      <div className="room-scene__tone" />
-      <img className="room-scene__floor" src={asset('room-background-v3.png')} alt="" />
-      <div className="room-scene__ambient"><img src={asset('room-ambient-light.svg')} alt="" /></div>
+      <img className="room-scene__background" src={asset('room-background.png')} alt="" />
     </div>
     <a className="skip-link" href="#video-library" onClick={() => { if (view === 'welcome') explore(); }}>Skip to videos</a>
     <section className="workstation" aria-label="Nitro video workstation">
