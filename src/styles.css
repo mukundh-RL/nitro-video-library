@@ -12,11 +12,11 @@
   --archive-inset: inset 1px 1px 1px #f1f0f0, inset -1px 0 2px #0004, inset 3px 0 1px white, inset 0 -2px 1px white;
   --archive-shadow-contact: color-mix(in srgb, var(--rl-ink) 52%, transparent);
   --archive-shadow-ambient: color-mix(in srgb, var(--rl-ink) 18%, transparent);
-  --archive-fitting: #c3c3c3;
-  --archive-fitting-highlight: rgb(255 255 255 / .1);
-  --archive-fitting-recess: rgb(0 0 0 / .8);
-  --archive-fitting-depth: rgb(0 0 0 / .5);
-  --archive-fitting-top: #f9f9f9;
+  --archive-fitting: #919191;
+  --archive-fitting-highlight: rgb(255 255 255 / .7);
+  --archive-fitting-recess: rgb(0 0 0 / .4);
+  --archive-fitting-depth: rgb(0 0 0 / .6);
+  --archive-fitting-top: #f7f7f7;
   font-family: var(--rl-font-body);
   font-synthesis: none;
   background: var(--archive-black);
@@ -44,16 +44,15 @@ button:disabled { cursor: default; opacity: .55; }
 .device-ground-shadow { --shadow-unit: var(--u); position: absolute; z-index: -3; pointer-events: none; left: -8%; top: calc(100% - var(--shadow-unit) * 4); width: 116%; height: calc(var(--shadow-unit) * 96); mix-blend-mode: multiply; }
 .device-ground-shadow::before, .device-ground-shadow::after { content: ''; position: absolute; pointer-events: none; border-radius: 50%; }
 .device-ground-shadow::before { left: 5%; top: 0; width: 90%; height: calc(var(--shadow-unit) * 12); background: radial-gradient(ellipse at center,var(--archive-shadow-contact) 0% 30%,transparent 100%); filter: blur(calc(var(--shadow-unit) * 3)); }
-.device-ground-shadow::after { left: 0; top: calc(var(--shadow-unit) * -4); width: 100%; height: calc(var(--shadow-unit) * 56); background: radial-gradient(ellipse at center,var(--archive-shadow-ambient) 0%,transparent 80%); filter: blur(calc(var(--shadow-unit) * 10)); }
+.device-ground-shadow::after { left: 0; top: calc(var(--shadow-unit) * 4); width: 100%; height: calc(var(--shadow-unit) * 56); background: radial-gradient(ellipse at 54% 45%,var(--archive-shadow-ambient) 0%,transparent 80%); filter: blur(calc(var(--shadow-unit) * 10)); transform: translateX(calc(var(--shadow-unit) * 24)) skewX(14deg); transform-origin: left top; }
 .device-header, .device-interior { position: relative; z-index: 1; }
 .device-fitting { position: absolute; z-index: -2; pointer-events: none; }
-/* User-supplied Figma Rectangle 240647842: grey metal, three inset
-   effects and a vertical flip. No outer white glow or tinted border edges. */
-.device-fitting--side { --handle-unit: var(--u); left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); border: calc(var(--u) * 8) solid var(--archive-fitting); border-left: 0; border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; transform: matrix(1,0,0,-1,0,0); box-shadow: inset calc(var(--handle-unit) * 28) calc(var(--handle-unit) * 2) calc(var(--handle-unit) * 3) var(--archive-fitting-highlight), inset calc(var(--handle-unit) * -1) calc(var(--handle-unit) * -1) calc(var(--handle-unit) * 7) var(--archive-fitting-recess), inset 0 calc(var(--handle-unit) * 2) calc(var(--handle-unit) * 3) var(--archive-fitting-depth); }
-/* Punch out the opening so inset lighting cannot tint the scene behind it.
-   Keep the existing metal border and its geometry unchanged. */
-.device-fitting--side { -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box; -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0) border-box; mask-composite: exclude; }
-.device-fitting--top { left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); border-radius: var(--rl-s-1) var(--rl-s-1) 0 0; background: var(--archive-fitting-top); box-shadow: inset 0 -1px 8.7px #0009, inset 0 0 2px #0000001a; }
+/* Updated user-supplied Figma stroke: the padding is the metal ring, with
+   inset relief painted on that ring and a genuinely transparent opening. */
+.device-fitting--side { --handle-unit: var(--u); left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); padding: calc(var(--handle-unit) * 8); padding-left: 0; border: 0; border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; background: radial-gradient(ellipse 362.1% 97.59% at 153.56% 86.49%,var(--archive-fitting-top) 0%,var(--archive-fitting) 100%); transform: matrix(1,0,0,-1,0,0); box-shadow: inset calc(var(--handle-unit) * -1) calc(var(--handle-unit) * -1) calc(var(--handle-unit) * 5.1) var(--archive-fitting-recess); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) border-box; -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) border-box; mask-composite: exclude; }
+/* Rectangle 11 is laid out horizontally here. Its -90deg rotation maps the
+   supplied (-3,0) and (-4,-1) inset offsets to (0,3) and (-1,4). */
+.device-fitting--top { --top-unit: var(--u); left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); border-radius: var(--rl-s-1) var(--rl-s-1) 0 0; background: var(--archive-fitting-top); box-shadow: inset 0 calc(var(--top-unit) * 3) calc(var(--top-unit) * 13.5) var(--archive-fitting-highlight), inset calc(var(--top-unit) * -1) calc(var(--top-unit) * 4) calc(var(--top-unit) * 4.9) var(--archive-fitting-depth); }
 .device-screw { position: absolute; z-index: 5; bottom: 2.19%; pointer-events: none; }
 .device-screw--left { left: 1.19%; }
 .device-screw--right { left: 97.4%; }
@@ -183,8 +182,8 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
   .room-scene { width: 100%; height: 100%; aspect-ratio: auto; }
   .workstation { --device-width: min(calc(100vw - var(--rl-s-7)),560px); --u: 1px; padding: var(--rl-s-5) var(--rl-s-4); gap: var(--rl-s-5); border-radius: var(--rl-radius-xl); }
   .device-ground-shadow { --shadow-unit: calc(var(--device-width) / 1408); }
-  .device-fitting--side { --handle-unit: calc(var(--rl-s-1) / 8); width: var(--rl-s-4); height: var(--rl-s-9); border-width: var(--rl-s-1); top: var(--rl-s-6); }
-  .device-fitting--top { width: var(--rl-s-8); height: var(--rl-s-2); top: calc(-1 * var(--rl-s-2)); }
+  .device-fitting--side { --handle-unit: calc(var(--rl-s-1) / 8); width: var(--rl-s-4); height: var(--rl-s-9); top: var(--rl-s-6); }
+  .device-fitting--top { --top-unit: calc(var(--rl-s-8) / 92.805); width: var(--rl-s-8); height: var(--rl-s-2); top: calc(-1 * var(--rl-s-2)); }
   .device-screw { bottom: var(--rl-s-1); }
   .device-screw--left { left: var(--rl-s-2); }
   .device-screw--right { left: auto; right: var(--rl-s-2); }
