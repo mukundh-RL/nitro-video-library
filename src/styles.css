@@ -10,13 +10,8 @@
   --archive-stage: #00318d;
   --archive-radius: 6px;
   --archive-inset: inset 1px 1px 1px #f1f0f0, inset -1px 0 2px #0004, inset 3px 0 1px white, inset 0 -2px 1px white;
-  --archive-shadow-contact: color-mix(in srgb, var(--rl-ink) 52%, transparent);
-  --archive-shadow-ambient: color-mix(in srgb, var(--rl-ink) 18%, transparent);
-  --archive-fitting: #919191;
-  --archive-fitting-highlight: rgb(255 255 255 / .7);
-  --archive-fitting-recess: rgb(0 0 0 / .4);
-  --archive-fitting-depth: rgb(0 0 0 / .6);
-  --archive-fitting-top: #f7f7f7;
+  --archive-volume-cap: #f9f6f7;
+  --archive-volume-relief: #9f9f9f;
   font-family: var(--rl-font-body);
   font-synthesis: none;
   background: var(--archive-black);
@@ -36,26 +31,26 @@ button:disabled { cursor: default; opacity: .55; }
    Render the photograph directly, with no blue grade, extra blur or overlay. */
 .room-scene { position: absolute; z-index: -1; pointer-events: none; left: 50%; top: 50%; transform: translate(-50%,-50%); width: max(100%,calc(100svh * 1672 / 941)); aspect-ratio: 1672 / 941; }
 .room-scene__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.workstation { --device-width: min(calc(100vw - var(--rl-s-8)), calc((100svh - var(--rl-s-10) - var(--rl-s-6)) * 1.6667), 1408px); --u: calc(var(--device-width) / 1408); position: relative; isolation: isolate; width: var(--device-width); display: flex; flex-direction: column; gap: calc(var(--u) * 19); padding: calc(var(--u) * 24) calc(var(--u) * 48) calc(var(--u) * 48); border-radius: var(--rl-radius-xl); background: linear-gradient(120.518deg,#d7d7d7 1.8%,#000 100.84%,#5a5a5a 100.85%); box-shadow: inset 0 2px 7px white,inset 1px 0 white,inset 0 -3px 1px #888,inset -2px 0 #868686,inset 0 2px 1px #a5a5a5,inset 0 5px 2px #dfdfdf; }
+.workstation-mount { --device-width: min(calc(100vw - var(--rl-s-8)), calc((100svh - var(--rl-s-10) - var(--rl-s-6)) * 1.6667), 1408px); --u: calc(var(--device-width) / 1408); position: relative; isolation: isolate; width: var(--device-width); }
+.workstation { position: relative; isolation: isolate; z-index: 0; width: 100%; display: flex; flex-direction: column; gap: calc(var(--u) * 19); padding: calc(var(--u) * 24) calc(var(--u) * 48) calc(var(--u) * 48); border-radius: var(--rl-radius-xl); background: linear-gradient(120.518deg,#d7d7d7 1.8%,#000 100.84%,#5a5a5a 100.85%); box-shadow: inset 0 2px 7px white,inset 1px 0 white,inset 0 -3px 1px #585858,inset -2px 0 #868686,inset 0 2px 1px #a5a5a5,inset 0 5px 2px #dfdfdf; }
 .workstation::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inherit; pointer-events: none; z-index: 5; }
 .workstation__texture { position: absolute; z-index: -1; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .91; border-radius: inherit; pointer-events: none; }
-/* Physical grounding: a narrow contact shadow plus a broad neutral penumbra.
-   Both fade to transparency before their bounds; no clipping or rectangular crop. */
-.device-ground-shadow { --shadow-unit: var(--u); position: absolute; z-index: -3; pointer-events: none; left: -8%; top: calc(100% - var(--shadow-unit) * 4); width: 116%; height: calc(var(--shadow-unit) * 96); mix-blend-mode: multiply; }
-.device-ground-shadow::before, .device-ground-shadow::after { content: ''; position: absolute; pointer-events: none; border-radius: 50%; }
-.device-ground-shadow::before { left: 5%; top: 0; width: 90%; height: calc(var(--shadow-unit) * 12); background: radial-gradient(ellipse at center,var(--archive-shadow-contact) 0% 30%,transparent 100%); filter: blur(calc(var(--shadow-unit) * 3)); }
-.device-ground-shadow::after { left: 0; top: calc(var(--shadow-unit) * 4); width: 100%; height: calc(var(--shadow-unit) * 56); background: radial-gradient(ellipse at 54% 45%,var(--archive-shadow-ambient) 0%,transparent 80%); filter: blur(calc(var(--shadow-unit) * 10)); transform: translateX(calc(var(--shadow-unit) * 24)) skewX(14deg); transform-origin: left top; }
+/* Figma 6645:116883 / 116897: exact vector shadow exports, including their
+   built-in blur bounds. A sibling stacking layer keeps them behind the chassis. */
+.device-ground-shadow { --shadow-unit: var(--u); position: absolute; z-index: -1; pointer-events: none; left: 0; top: 100%; width: 100%; height: 0; }
+.device-ground-shadow img { position: absolute; display: block; max-width: none; top: calc(var(--shadow-unit) * -47.357); transform-origin: top left; transform: scale(calc(var(--shadow-unit) / 1px)); }
+.device-ground-shadow__wide { left: calc(var(--shadow-unit) * -20.53); }
+.device-ground-shadow__contact { left: calc(var(--shadow-unit) * 10.8025); }
 .device-header, .device-interior { position: relative; z-index: 1; }
 .device-fitting { position: absolute; z-index: -2; pointer-events: none; }
-/* Updated user-supplied Figma stroke: the padding is the metal ring, with
-   inset relief painted on that ring and a genuinely transparent opening. */
-.device-fitting--side { --handle-unit: var(--u); left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); padding: calc(var(--handle-unit) * 8); padding-left: 0; border: 0; border-radius: 0 var(--rl-radius-lg) var(--rl-radius-lg) 0; background: radial-gradient(ellipse 362.1% 97.59% at 153.56% 86.49%,var(--archive-fitting-top) 0%,var(--archive-fitting) 100%); transform: matrix(1,0,0,-1,0,0); box-shadow: inset calc(var(--handle-unit) * -1) calc(var(--handle-unit) * -1) calc(var(--handle-unit) * 5.1) var(--archive-fitting-recess); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) border-box; -webkit-mask-composite: xor; mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0) border-box; mask-composite: exclude; }
-/* Rectangle 11 is laid out horizontally here. Its -90deg rotation maps the
-   supplied (-3,0) and (-4,-1) inset offsets to (0,3) and (-1,4). */
-.device-fitting--top { --top-unit: var(--u); left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); border-radius: var(--rl-s-1) var(--rl-s-1) 0 0; background: var(--archive-fitting-top); box-shadow: inset 0 calc(var(--top-unit) * 3) calc(var(--top-unit) * 13.5) var(--archive-fitting-highlight), inset calc(var(--top-unit) * -1) calc(var(--top-unit) * 4) calc(var(--top-unit) * 4.9) var(--archive-fitting-depth); }
-.device-screw { position: absolute; z-index: 5; bottom: 2.19%; pointer-events: none; }
-.device-screw--left { left: 1.19%; }
-.device-screw--right { left: 97.4%; }
+/* Exact supplied/exported SVG artwork; scale wrappers without resizing roots. */
+.device-fitting--side { --handle-unit: var(--u); left: 100%; top: calc(var(--u) * 63.84); width: calc(var(--u) * 37.215); height: calc(var(--u) * 167.676); transform: scaleY(-1); }
+.device-fitting--side img { display: block; max-width: none; transform-origin: top left; transform: scale(calc(var(--handle-unit) / 1px)); }
+.device-fitting--top { --top-unit: var(--u); left: calc(var(--u) * 43.906); top: calc(var(--u) * -11.184); width: calc(var(--u) * 92.805); height: calc(var(--u) * 11.184); }
+.device-fitting--top img { display: block; max-width: none; transform-origin: top left; transform: scale(calc(var(--top-unit) / 1px)); }
+.device-screw { position: absolute; z-index: 5; bottom: calc(var(--u) * 25.06); pointer-events: none; }
+.device-screw--left { left: 1.88%; }
+.device-screw--right { right: 1.75%; }
 .device-screw img { display: block; max-width: none; transform-origin: bottom left; transform: scale(calc(var(--u) / 1px)); }
 .device-header { position: relative; display: flex; align-items: center; justify-content: space-between; height: calc(var(--u) * 36); flex: 0 0 auto; }
 .brand-plate { display: flex; align-items: center; gap: var(--rl-s-4); padding: 0; border: 0; background: none; color: var(--rl-ink); }
@@ -96,7 +91,7 @@ button:disabled { cursor: default; opacity: .55; }
 .transport-readout > div { display: flex; align-items: center; justify-content: space-between; gap: var(--rl-s-2); font-size: max(12px,calc(var(--u) * 16)); font-weight: 600; line-height: 1; }
 .transport-readout p { margin: 0; font-size: max(11px,calc(var(--u) * 12)); color: var(--archive-muted); white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
 .transport-bottom { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: space-between; gap: var(--rl-s-3); padding: calc(var(--u) * 20) calc(var(--u) * 20) calc(var(--u) * 18) calc(var(--u) * 12); }
-.transport-controls { display: flex; flex-direction: column; justify-content: space-between; min-width: 166.74px; width: 166.74px; height: 85.46px; zoom: calc(var(--u) / 1px); }
+.transport-controls { display: flex; flex-direction: column; justify-content: space-between; min-width: 166.74px; width: 166.74px; height: 92.54px; zoom: calc(var(--u) / 1px); }
 .transport-keys { display: flex; align-items: center; justify-content: space-between; }
 .round-button { position: relative; width: 42.25px; height: 41.41px; display: grid; place-items: center; border: 0; background: none; padding: 0; flex: 0 0 auto; color: black; transition: transform var(--rl-dur-fast); }
 .round-button__cap { position: absolute; left: -6.52px; top: -4.89px; pointer-events: none; }
@@ -107,21 +102,22 @@ button:disabled { cursor: default; opacity: .55; }
 .round-button:active { transform: translateY(2px); }
 .volume-control { position: relative; width: 100%; display: flex; align-items: center; gap: var(--rl-s-1); }
 .volume-slider { position: relative; height: var(--rl-s-5); flex: 1; min-width: 0; }
-.volume-slider__track { position: absolute; inset: 8px 0 auto; height: 8px; border-radius: 13px; background: linear-gradient(to right,#828282 var(--volume),var(--archive-screen) var(--volume)); box-shadow: inset -.7px -.7px .419px white; }
-.volume-slider__position { position: absolute; top: 0; left: calc(12px + (100% - 24px) * var(--volume-number)); width: 0; pointer-events: none; }
-.volume-slider__position img { position: absolute; left: -16.48px; top: -3.51px; }
+.volume-slider__track { position: absolute; inset: 10px 0 auto; height: 3px; border-radius: 18px; background: var(--archive-screen); box-shadow: inset -.7px -.7px .419px white; }
+.volume-slider__position { position: absolute; top: 3.15px; left: calc(16.9885px + (100% - 33.977px) * var(--volume-number)); width: 0; pointer-events: none; }
+.volume-slider__position::before { content: ''; position: absolute; left: -16.9885px; top: 0; width: 33.977px; height: 15.125px; border-radius: 36px; background: var(--archive-volume-cap); box-shadow: .476px 0 .952px #0000003d,-.952px -.476px 1.905px -1.429px #00000087,0 .952px 5.238px -.952px var(--archive-volume-relief),inset 1.429px 1.905px .476px -.952px #ffffffcc,inset 0 -.476px 2.381px #00000021; }
+.volume-slider__position::after { content: ''; position: absolute; left: -14.828px; top: 1.68px; width: 29.656px; height: 11.758px; border-radius: 5.879px; background: var(--rl-primary); box-shadow: 5px 4px 9.524px 2.857px #37373799,.476px .476px .476px var(--rl-primary-ink),inset 1.429px 1.905px .952px -.476px #90b7eb9e; }
 .volume-slider input { position: absolute; z-index: 2; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: ew-resize; touch-action: pan-y; }
 .volume-slider:has(input:focus-visible) { outline: 1px solid #565a58; outline-offset: 4px; border-radius: var(--rl-radius-sm); }
 .volume-level { position: relative; width: 23.09px; height: 9.95px; flex: 0 0 auto; }
 .volume-level img { position: absolute; left: 0; bottom: 0; }
-.volume-level__fill { position: absolute; inset: 0; background: var(--rl-success); mask-repeat: no-repeat; mask-position: left bottom; mask-size: 100% 100%; }
+.volume-level__fill { position: absolute; inset: 0; background: var(--rl-primary); mask-repeat: no-repeat; mask-position: left bottom; mask-size: 100% 100%; }
 .speaker-button { position: relative; border: 0; background: none; padding: 0; display: grid; place-items: center; flex: 0 0 auto; width: 100px; height: 100px; zoom: calc(var(--u) / 1px); }
 .speaker-button img { display: block; }
 .speaker-muted { position: absolute; inset: auto 0 0; text-align: center; background: var(--archive-metal); font-size: 9px; font-weight: 600; letter-spacing: .12em; }
 .category-keys { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(3,minmax(0,1fr)); gap: calc(var(--u) * 4); min-width: 0; min-height: 0; }
 .category-key { min-width: 0; min-height: 0; display: flex; flex-direction: column; align-items: stretch; justify-content: space-between; padding: calc(var(--u) * 19) calc(var(--u) * 16); border: 0; border-radius: var(--archive-radius); background: var(--archive-metal); color: var(--archive-screen); box-shadow: var(--archive-inset); text-align: left; transition: filter var(--rl-dur-fast),transform var(--rl-dur-fast); }
 .category-key__top { display: flex; align-items: flex-start; justify-content: flex-end; gap: var(--rl-s-2); }
-.channel-light { display: block; margin-top: var(--rl-s-1); }
+.channel-light { display: block; margin-top: var(--rl-s-1); transform-origin: top right; transform: scale(calc(var(--u) / 1px)); }
 .category-key__label { font-size: var(--rl-radius-lg); line-height: 1.15; font-weight: 500; letter-spacing: -.03em; }
 .category-key:nth-child(5) .category-key__label { max-width: 100.7890625px; }
 .category-key:active { transform: translateY(1px); filter: brightness(.94); }
@@ -170,7 +166,7 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
   .video-card--compact .video-card__copy { position: static; flex: 0 0 auto; background: var(--archive-screen); backdrop-filter: none; }
 }
 @media (max-width:1100px) and (min-width:769px) {
-  .workstation { --device-width: min(calc(100vw - var(--rl-s-8)),1408px); }
+  .workstation-mount { --device-width: min(calc(100vw - var(--rl-s-8)),1408px); }
   .system-stage { padding: var(--rl-s-6) var(--rl-s-4); }
   .transport-bottom { gap: var(--rl-s-2); padding: var(--rl-s-3) var(--rl-s-2); }
   .case-label { font-size: 9px; }
@@ -180,7 +176,8 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
 @media (max-width:768px) {
   .system-stage { min-height: 100svh; padding: var(--rl-s-5) var(--rl-s-3); align-items: start; overflow: clip; }
   .room-scene { width: 100%; height: 100%; aspect-ratio: auto; }
-  .workstation { --device-width: min(calc(100vw - var(--rl-s-7)),560px); --u: 1px; padding: var(--rl-s-5) var(--rl-s-4); gap: var(--rl-s-5); border-radius: var(--rl-radius-xl); }
+  .workstation-mount { --device-width: min(calc(100vw - var(--rl-s-7)),560px); --u: 1px; }
+  .workstation { padding: var(--rl-s-5) var(--rl-s-4); gap: var(--rl-s-5); border-radius: var(--rl-radius-xl); }
   .device-ground-shadow { --shadow-unit: calc(var(--device-width) / 1408); }
   .device-fitting--side { --handle-unit: calc(var(--rl-s-1) / 8); width: var(--rl-s-4); height: var(--rl-s-9); top: var(--rl-s-6); }
   .device-fitting--top { --top-unit: calc(var(--rl-s-8) / 92.805); width: var(--rl-s-8); height: var(--rl-s-2); top: calc(-1 * var(--rl-s-2)); }
@@ -209,7 +206,7 @@ wistia-player { display: block; flex: none; width: min(100cqw,calc(100cqh * 16 /
   .transport-readout { height: 72px; padding: var(--rl-s-3); }
   .transport-readout > div { font-size: var(--rl-body-sm); }
   .transport-bottom { padding: var(--rl-s-3) var(--rl-s-4); gap: var(--rl-s-4); }
-  .transport-controls { width: 166.74px; height: 85.46px; }
+  .transport-controls { width: 166.74px; height: 92.54px; }
   .speaker-button { width: 100px; height: 100px; }
   .category-keys { grid-template-columns: repeat(2,minmax(0,1fr)); grid-template-rows: repeat(3,112px); gap: var(--rl-s-1); }
   .category-key { padding: var(--rl-s-4); }

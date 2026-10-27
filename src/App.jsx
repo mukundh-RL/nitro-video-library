@@ -104,10 +104,10 @@ function VolumeSlider({ value, onChange, onTick }) {
   return <div className="volume-control">
     <div className="volume-slider" style={{ '--volume': (value * 100) + '%', '--volume-number': value }}>
       <span className="volume-slider__track" aria-hidden="true" />
-      <span className="volume-slider__position" aria-hidden="true"><img src={asset('volume-thumb.svg')} alt="" /></span>
+      <span className="volume-slider__position" aria-hidden="true" />
       <input type="range" min="0" max="1" step="0.01" value={value} aria-label="Volume" aria-valuetext={Math.round(value * 100) + ' percent'} onChange={update} />
     </div>
-    <span className="volume-level" aria-hidden="true"><img src={asset('volume-level.svg')} alt="" /><span className="volume-level__fill" style={{ maskImage: 'url(' + asset('volume-level.svg') + ')', clipPath: 'inset(0 ' + ((1 - value) * 100) + '% 0 0)' }} /></span>
+    <span className="volume-level" aria-hidden="true"><img src={asset('volume-level-v2.svg')} alt="" /><span className="volume-level__fill" style={{ maskImage: 'url(' + asset('volume-level-v2.svg') + ')', clipPath: 'inset(0 ' + ((1 - value) * 100) + '% 0 0)' }} /></span>
     <output className="sr-only">{String(Math.round(value * 100)).padStart(2, '0')}</output>
   </div>;
 }
@@ -260,13 +260,14 @@ export default function App() {
       <img className="room-scene__background" src={asset('room-background.png')} alt="" />
     </div>
     <a className="skip-link" href="#video-library" onClick={() => { if (view === 'welcome') explore(); }}>Skip to videos</a>
+    <div className="workstation-mount">
+      <div className="device-ground-shadow" aria-hidden="true"><img className="device-ground-shadow__wide" src={asset('device-shadow-wide-v2.svg')} alt="" /><img className="device-ground-shadow__contact" src={asset('device-shadow-contact-v2.svg')} alt="" /></div>
     <section className="workstation" aria-label="Nitro video workstation">
       <img className="workstation__texture" src={asset('case-texture.png')} alt="" aria-hidden="true" />
-      <div className="device-ground-shadow" aria-hidden="true" />
-      <span className="device-fitting device-fitting--side" aria-hidden="true" />
-      <span className="device-fitting device-fitting--top" aria-hidden="true" />
-      <span className="device-screw device-screw--left" aria-hidden="true"><img src={asset('case-screw.svg')} alt="" /></span>
-      <span className="device-screw device-screw--right" aria-hidden="true"><img src={asset('case-screw.svg')} alt="" /></span>
+      <span className="device-fitting device-fitting--side" aria-hidden="true"><img src={asset('case-handle-v2.svg')} alt="" /></span>
+      <span className="device-fitting device-fitting--top" aria-hidden="true"><img src={asset('case-top-button-v2.svg')} alt="" /></span>
+      <span className="device-screw device-screw--left" aria-hidden="true"><img src={asset('case-screw-left-v2.svg')} alt="" /></span>
+      <span className="device-screw device-screw--right" aria-hidden="true"><img src={asset('case-screw-right-v2.svg')} alt="" /></span>
       <header className="device-header">
         <button className="brand-plate" type="button" onClick={goHome} aria-label="Nitro video archive home">
           <img src={asset('rocketlane.svg')} alt="Rocketlane" />
@@ -325,9 +326,10 @@ export default function App() {
               <button className="speaker-button" type="button" onClick={() => { audio.click(); setSoundFx((value) => !value); }} aria-label={(soundFx ? 'Disable' : 'Enable') + ' mechanical sounds'} aria-pressed={soundFx} title="Toggle mechanical sounds"><img src={asset('speaker.svg')} alt="" />{!soundFx && <span className="speaker-muted">SFX OFF</span>}</button>
             </div>
           </section>
-          <div className="category-keys" role="group" aria-label="Video categories">{categories.map((item) => <button key={item} type="button" className={'category-key ' + (category === item && (showBrowser || item === 'All videos') ? 'is-active' : '')} aria-label={'Filter by ' + item} aria-pressed={category === item && (showBrowser || item === 'All videos')} onClick={() => chooseCategory(item)}><span className="category-key__top"><img className="channel-light" src={asset(category === item && (showBrowser || item === 'All videos') ? 'light-on.svg' : 'light-off.svg')} alt="" /></span><span className="category-key__label">{item}</span></button>)}</div>
+          <div className="category-keys" role="group" aria-label="Video categories">{categories.map((item) => <button key={item} type="button" className={'category-key ' + (category === item && (showBrowser || item === 'All videos') ? 'is-active' : '')} aria-label={'Filter by ' + item} aria-pressed={category === item && (showBrowser || item === 'All videos')} onClick={() => chooseCategory(item)}><span className="category-key__top"><img className="channel-light" src={asset(category === item && (showBrowser || item === 'All videos') ? 'category-light-on-v2.svg' : 'category-light-off-v2.svg')} alt="" /></span><span className="category-key__label">{item}</span></button>)}</div>
         </aside>
       </div>
     </section>
+    </div>
   </main>;
 }
