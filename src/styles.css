@@ -10,8 +10,8 @@
   --archive-stage: #00318d;
   --archive-radius: 6px;
   --archive-inset: inset 1px 1px 1px #f1f0f0, inset -1px 0 2px #0004, inset 3px 0 1px white, inset 0 -2px 1px white;
-  --archive-shadow-contact: color-mix(in srgb, var(--rl-ink) 36%, transparent);
-  --archive-shadow-ambient: color-mix(in srgb, var(--rl-ink) 14%, transparent);
+  --archive-shadow-contact: color-mix(in srgb, var(--rl-ink) 52%, transparent);
+  --archive-shadow-ambient: color-mix(in srgb, var(--rl-ink) 18%, transparent);
   --archive-fitting: #c3c3c3;
   --archive-fitting-highlight: rgb(255 255 255 / .1);
   --archive-fitting-recess: rgb(0 0 0 / .8);
@@ -43,8 +43,8 @@ button:disabled { cursor: default; opacity: .55; }
    Both fade to transparency before their bounds; no clipping or rectangular crop. */
 .device-ground-shadow { --shadow-unit: var(--u); position: absolute; z-index: -3; pointer-events: none; left: -8%; top: calc(100% - var(--shadow-unit) * 4); width: 116%; height: calc(var(--shadow-unit) * 96); mix-blend-mode: multiply; }
 .device-ground-shadow::before, .device-ground-shadow::after { content: ''; position: absolute; pointer-events: none; border-radius: 50%; }
-.device-ground-shadow::before { left: 5%; top: 0; width: 90%; height: calc(var(--shadow-unit) * 20); background: radial-gradient(ellipse at center,var(--archive-shadow-contact) 0%,transparent 72%); filter: blur(calc(var(--shadow-unit) * 4)); }
-.device-ground-shadow::after { left: 0; top: calc(var(--shadow-unit) * -4); width: 100%; height: calc(var(--shadow-unit) * 80); background: radial-gradient(ellipse at center,var(--archive-shadow-ambient) 0%,transparent 72%); filter: blur(calc(var(--shadow-unit) * 12)); }
+.device-ground-shadow::before { left: 5%; top: 0; width: 90%; height: calc(var(--shadow-unit) * 12); background: radial-gradient(ellipse at center,var(--archive-shadow-contact) 0% 30%,transparent 100%); filter: blur(calc(var(--shadow-unit) * 3)); }
+.device-ground-shadow::after { left: 0; top: calc(var(--shadow-unit) * -4); width: 100%; height: calc(var(--shadow-unit) * 56); background: radial-gradient(ellipse at center,var(--archive-shadow-ambient) 0%,transparent 80%); filter: blur(calc(var(--shadow-unit) * 10)); }
 .device-header, .device-interior { position: relative; z-index: 1; }
 .device-fitting { position: absolute; z-index: -2; pointer-events: none; }
 /* User-supplied Figma Rectangle 240647842: grey metal, three inset
