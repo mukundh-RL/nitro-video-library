@@ -34,12 +34,10 @@ button:disabled { cursor: default; opacity: .55; }
 .skip-link { position: fixed; z-index: 100; top: var(--rl-s-4); left: var(--rl-s-4); padding: var(--rl-s-3); background: var(--rl-paper); color: var(--rl-ink); transform: translateY(-200%); }
 .skip-link:focus { transform: none; }
 .system-stage { position: relative; isolation: isolate; display: grid; place-items: center; min-height: 100svh; padding: var(--rl-s-7) var(--rl-s-6); overflow: hidden; background: var(--rl-canvas); }
-/* Figma 6233:95357: room image 6313:96989, shadow image 6313:96995.
-   Keep their shared design-space geometry rather than stretching each layer. */
+/* Use the supplied finished room artwork directly: no extra blur or lighting
+   overlay. Device lighting and ambient shadows remain on the chassis. */
 .room-scene { position: absolute; z-index: -1; pointer-events: none; left: 50%; top: 50%; transform: translate(-50%,-50%); width: max(100%,calc(100svh * 1920 / 1080)); aspect-ratio: 1920 / 1080; --scene-scale: max(calc(100vw / 1920px),calc(100svh / 1080px)); }
-.room-scene__background { position: absolute; left: -7.5464%; top: -7.577%; width: 115.0929%; height: 115.1541%; object-fit: cover; filter: blur(calc(var(--scene-scale) * var(--rl-s-7) * .98)); }
-.room-scene__light { position: absolute; left: -14.566%; top: -53.565%; width: 93.162%; aspect-ratio: 1788.71 / 1550.95; mix-blend-mode: soft-light; }
-.room-scene__light img { display: block; max-width: none; transform-origin: top left; transform: scale(var(--scene-scale)); }
+.room-scene__background { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 .workstation { --device-width: min(calc(100vw - var(--rl-s-8)), calc((100svh - var(--rl-s-9)) * 1.6667), 1408px); --u: calc(var(--device-width) / 1408); position: relative; isolation: isolate; width: var(--device-width); display: flex; flex-direction: column; gap: calc(var(--u) * 19); padding: calc(var(--u) * 24) calc(var(--u) * 48) calc(var(--u) * 48); border-radius: var(--rl-radius-xl); background: linear-gradient(120.518deg,#d7d7d7 1.8%,#000 100.84%,#5a5a5a 100.85%); box-shadow: inset 0 2px 7px white,inset 1px 0 white,inset 0 -3px 1px #888,inset -2px 0 #868686,inset 0 2px 1px #a5a5a5,inset 0 5px 2px #dfdfdf; }
 .workstation::before { content: ''; position: absolute; z-index: -3; inset: var(--rl-s-2); border-radius: inherit; pointer-events: none; box-shadow: 0 var(--rl-s-4) var(--rl-s-5) var(--archive-shadow-near), 0 var(--rl-s-7) var(--rl-s-8) var(--archive-contact-shadow), 0 var(--rl-s-8) var(--rl-s-10) var(--archive-shadow-soft); filter: blur(var(--rl-s-2)); }
 .workstation::after { content: ''; position: absolute; inset: 0; border-radius: inherit; box-shadow: inherit; pointer-events: none; z-index: 5; }
