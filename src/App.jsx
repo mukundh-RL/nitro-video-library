@@ -1,10 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { WistiaPlayer } from '@wistia/wistia-player-react';
+import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './design-system/components.tsx';
 import { categories, videos } from './videos.js';
 
 const asset = (file) => import.meta.env.BASE_URL + 'design/' + file;
 const thumbnail = (video) => import.meta.env.BASE_URL + video.thumbnail.replace(/^\//, '');
+// Keep the player integration out of the initial archive download.
+const WistiaPlayer = lazy(() => import('@wistia/wistia-player-react').then((module) => ({ default: module.WistiaPlayer })));
+// Match the approved chassis sizing; also used by the responsive preload in index.html.
+const textureSizes = '(max-width: 768px) min(calc(100vw - 48px), 560px), (max-width: 1100px) calc(100vw - 64px), min(calc(100vw - 64px), calc((100svh - 160px) * 1.6667), 1408px)';
 
 function Icon({ name, size = 18 }) {
   return <svg aria-hidden="true" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -257,13 +260,19 @@ export default function App() {
 
   return <main className={'system-stage ' + (intro ? 'is-starting' : 'is-ready')}>
     <div className="room-scene" aria-hidden="true">
-      <img className="room-scene__background" src={asset('room-background.png')} alt="" />
+      <picture style={{ display: 'contents' }}>
+        <source type="image/webp" srcSet={asset('room-background-1672.webp')} />
+        <img className="room-scene__background" src={asset('room-background.png')} width="1672" height="941" loading="eager" decoding="async" fetchPriority="high" alt="" />
+      </picture>
     </div>
     <a className="skip-link" href="#video-library" onClick={() => { if (view === 'welcome') explore(); }}>Skip to videos</a>
     <div className="workstation-mount">
       <div className="device-ground-shadow" aria-hidden="true"><img className="device-ground-shadow__wide" src={asset('device-shadow-wide-v2.svg')} alt="" /><img className="device-ground-shadow__contact" src={asset('device-shadow-contact-v2.svg')} alt="" /></div>
     <section className="workstation" aria-label="Nitro video workstation">
-      <img className="workstation__texture" src={asset('case-texture.png')} alt="" aria-hidden="true" />
+      <picture style={{ display: 'contents' }}>
+        <source type="image/webp" srcSet={`${asset('case-texture-960.webp')} 960w, ${asset('case-texture-1920.webp')} 1920w, ${asset('case-texture-2816.webp')} 2816w`} sizes={textureSizes} />
+        <img className="workstation__texture" src={asset('case-texture.png')} width="4096" height="2731" loading="eager" decoding="async" fetchPriority="high" alt="" aria-hidden="true" />
+      </picture>
       <span className="device-fitting device-fitting--side" aria-hidden="true"><img src={asset('case-handle-v2.svg')} alt="" /></span>
       <span className="device-fitting device-fitting--top" aria-hidden="true"><img src={asset('case-top-button-v2.svg')} alt="" /></span>
       <span className="device-screw device-screw--left" aria-hidden="true"><img src={asset('case-screw-left-v2.svg')} alt="" /></span>
@@ -279,7 +288,10 @@ export default function App() {
         <section className={'display-panel ' + (showBrowser ? 'display-panel--browser' : '')} aria-label="Video screen">
           {!showBrowser && <div className="welcome-view" ref={welcomeRef}>
             <section className="welcome-hero" aria-label="Welcome to Nitro">
-              <img className="welcome-art" src={asset('nitro-sunrise.png')} alt="Nitro above the sunrise on Earth" />
+              <picture style={{ display: 'contents' }}>
+                <source type="image/webp" srcSet={`${asset('nitro-sunrise-840.webp')} 840w, ${asset('nitro-sunrise-1672.webp')} 1672w`} sizes="(max-width: 768px) calc(100vw - 96px), min(89vw, 1253px)" />
+                <img className="welcome-art" src={asset('nitro-sunrise.png')} width="1672" height="941" loading="eager" decoding="async" alt="Nitro above the sunrise on Earth" />
+              </picture>
               <div className="welcome-copy"><h1>Welcome to the hub of Nitro video content.</h1><Button variant="onblue" size="sm" className="explore-button" onClick={explore}>Explore the videos</Button></div>
             </section>
             <div className="welcome-library" id="video-library" tabIndex="-1" ref={gridRef} aria-label="All Nitro videos">
@@ -303,7 +315,9 @@ export default function App() {
           {activeVideo && <div className={'video-window ' + (pip ? 'is-pip' : '')} role="region" aria-label={'Playing ' + activeVideo.title}>
             <div className="video-window__player">
               {!playerReady && <div className="player-loading" role="status"><span />Loading video</div>}
-              <WistiaPlayer key={activeVideo.mediaId + '-' + playRequest} ref={playerRef} mediaId={activeVideo.mediaId} aspect={16 / 9} autoplay playerColor="0E61FE" volume={volume} onApiReady={handlePlayerReady} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => stepVideo(1)} onVolumeChange={(event) => { if (Number.isFinite(event.detail?.volume)) setVolume(event.detail.volume); }} />
+              <Suspense fallback={null}>
+                <WistiaPlayer key={activeVideo.mediaId + '-' + playRequest} ref={playerRef} mediaId={activeVideo.mediaId} aspect={16 / 9} autoplay playerColor="0E61FE" volume={volume} onApiReady={handlePlayerReady} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => stepVideo(1)} onVolumeChange={(event) => { if (Number.isFinite(event.detail?.volume)) setVolume(event.detail.volume); }} />
+              </Suspense>
             </div>
             <div className="window-actions">
               {pip && <button type="button" aria-label="Expand video" onClick={() => { audio.click(); setPip(false); setView('player'); }}><Icon name="expand" size={16} /></button>}
