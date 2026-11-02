@@ -60,7 +60,7 @@ button:disabled { cursor: default; opacity: .55; }
 .case-label { color: #565a58; font-size: var(--rl-eyebrow); font-weight: 600; letter-spacing: var(--rl-track-eyebrow); }
 .device-interior { display: grid; grid-template-columns: minmax(0,1fr) 27.527%; gap: calc(var(--u) * 4); padding: calc(var(--u) * 12); height: calc(var(--u) * 716.8); border-radius: var(--rl-radius-sm); background: var(--archive-screen); box-shadow: 0 var(--rl-s-2) var(--rl-s-3) #6f716e54; }
 .display-panel { position: relative; min-width: 0; min-height: 0; overflow: hidden; border-radius: var(--archive-radius); background: var(--archive-black); color: var(--archive-text); }
-.welcome-view { height: 100%; overflow: auto; scrollbar-width: thin; scrollbar-color: #40434c transparent; }
+.welcome-view { height: 100%; overflow-x: hidden; overflow-y: auto; overscroll-behavior-x: none; scrollbar-width: thin; scrollbar-color: #40434c transparent; }
 .welcome-hero { position: relative; height: calc(var(--u) * 524.4); isolation: isolate; }
 .welcome-art { position: absolute; z-index: -1; top: calc(var(--u) * -90); left: 50%; transform: translateX(-50%); width: calc(var(--u) * 1252.926); height: calc(var(--u) * 705.145); object-fit: cover; pointer-events: none; }
 .welcome-copy { position: absolute; top: calc(var(--u) * 397.4); left: 0; width: 100%; display: flex; flex-direction: column; align-items: center; gap: calc(var(--u) * 20); padding-inline: var(--rl-s-4); }
