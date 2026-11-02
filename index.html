@@ -6,6 +6,9 @@
     <meta name="theme-color" content="#00318d" />
     <meta name="description" content="Explore Rocketlane Nitro product demos, customer stories, and the people behind the agents." />
     <title>Nitro video archive | Rocketlane</title>
+    <!-- Start the approved room and responsive chassis artwork before React loads. -->
+    <link rel="preload" as="image" type="image/webp" href="%BASE_URL%design/room-background-1672.webp" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" href="%BASE_URL%design/case-texture-1920.webp" imagesrcset="%BASE_URL%design/case-texture-960.webp 960w, %BASE_URL%design/case-texture-1920.webp 1920w, %BASE_URL%design/case-texture-2816.webp 2816w" imagesizes="(max-width: 768px) min(calc(100vw - 48px), 560px), (max-width: 1100px) calc(100vw - 64px), min(calc(100vw - 64px), calc((100svh - 160px) * 1.6667), 1408px)" fetchpriority="high" />
   </head>
   <body>
     <div id="root"></div>
